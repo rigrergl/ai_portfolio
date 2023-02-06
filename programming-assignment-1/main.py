@@ -22,7 +22,12 @@ class State:
         self.data = arg
 
     def __str__(self):
-        return str(self.data)
+        result = ""
+        for line in self.data:
+            for c in line:
+                result += c + " "
+            result = result.strip() + "\n"
+        return result
 
 
 if __name__ == '__main__':
