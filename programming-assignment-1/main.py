@@ -30,6 +30,26 @@ class State:
         return result
 
 
+def dfs(i_state):
+    """Runs the Depth-First Search Algorithm"""
+    print("TODO")
+
+
+def ids(i_state):
+    """Run the Iterative Depth-First Search Algorithm"""
+    print("TODO")
+
+
+def astar1(i_state):
+    """Runs the A* algorithm with heuristic 1"""
+    print("TODO")
+
+
+def astar2(i_state):
+    """Runs the A* algorithm with heuristic 2"""
+    print("TODO")
+
+
 if __name__ == '__main__':
     # check if arguments were entered
     if len(sys.argv) < 3:
@@ -47,4 +67,16 @@ if __name__ == '__main__':
 
     # Generate State object from input data
     initial_state = State(text_in)
-    print(initial_state)
+
+    # Compute solution using the desired algorithm
+    if algorithm_name == "dfs":
+        dfs(initial_state)
+    elif algorithm_name == "ids":
+        ids(initial_state)
+    elif algorithm_name == "astar1":
+        astar1(initial_state)
+    elif algorithm_name == "astar2":
+        astar2(initial_state)
+    else:
+        print("Error: algorithm_name not recognized")
+        quit()
