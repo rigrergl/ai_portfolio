@@ -1,5 +1,6 @@
 import sys
 import pathlib
+import copy
 
 
 class State:
@@ -29,10 +30,64 @@ class State:
             result = result.strip() + "\n"
         return result
 
+    def get_adjacent_states(self):
+        """Returns adjacent states in the following order:
+            1. moving left item into blank
+            2. Moving top item into blank
+            3. Moving right item into blank
+            4. Moving bottom item into blank
+        """
+        adjacent_states = []
+        blank_r, blank_c = self.find_blank_tile()
+
+        # moving left item into blank
+        if blank_c > 0:
+            new_state = State(copy.deepcopy(self.data))
+            new_state.switch_positions(blank_r, blank_c, blank_r, blank_c - 1)
+            adjacent_states.append(new_state)
+
+        # moving top item into blank
+        if blank_r > 0:
+            new_state = State(copy.deepcopy(self.data))
+            new_state.switch_positions(blank_r, blank_c, blank_r - 1, blank_c)
+            adjacent_states.append(new_state)
+
+        # moving right item into blank
+        if blank_c < len(self.data[blank_r]) - 1:
+            new_state = State(copy.deepcopy(self.data))
+            new_state.switch_positions(blank_r, blank_c, blank_r, blank_c + 1)
+            adjacent_states.append(new_state)
+
+        # moving bottom item into blank
+        if blank_r < len(self.data) - 1:
+            new_state = State(copy.deepcopy(self.data))
+            new_state.switch_positions(blank_r, blank_c, blank_r + 1, blank_c)
+            adjacent_states.append(new_state)
+
+        return adjacent_states
+
+    def find_blank_tile(self):
+        for r, row in enumerate(self.data):
+            for c, item in enumerate(row):
+                if item == "*":
+                    return r, c
+
+    def switch_positions(self, r1, c1, r2, c2):
+        """Switches the positions of items (r1, c1) and (r2, c2)"""
+        temp = self.data[r1][c1]
+        self.data[r1][c1] = self.data[r2][c2]
+        self.data[r2][c2] = temp
+
 
 def dfs(i_state):
     """Runs the Depth-First Search Algorithm"""
-    print("TODO")
+    print("Initial state:")
+    print(i_state)
+
+    print("Adjacent States:")
+    adjacent_states = i_state.get_adjacent_states()
+    for state in adjacent_states:
+        print(state)
 
 
 def ids(i_state):
