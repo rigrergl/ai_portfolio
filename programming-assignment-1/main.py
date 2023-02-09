@@ -3,6 +3,22 @@ import pathlib
 import copy
 
 
+class Node:
+    def __init__(self, state, parent):
+        self.state = None
+        self.parent = None
+        self.depth = 0
+
+        if (not isinstance(state, State)) or (parent is not None and not isinstance(parent, Node)):
+            raise ValueError("Unsupported Argument Type")
+
+        self.state = state
+
+        if parent:
+            self.parent = parent
+            self.depth = parent.depth + 1
+
+
 class State:
     def __init__(self, arg):
         self.data = None
