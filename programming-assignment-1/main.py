@@ -2,9 +2,11 @@ import sys
 import pathlib
 import copy
 
+is_goal_found = False
+
 
 class Node:
-    def __init__(self, state, parent):
+    def __init__(self, state, parent=None):
         self.state = None
         self.parent = None
         self.depth = 0
@@ -17,6 +19,14 @@ class Node:
         if parent:
             self.parent = parent
             self.depth = parent.depth + 1
+
+    def get_children(self):
+        children = []
+        adjacent_states = self.state.get_adjacent_states()
+        for state in adjacent_states:
+            child = Node(state, self)
+            children.append(child)
+        return children
 
 
 class State:
@@ -48,6 +58,14 @@ class State:
 
     def is_goal_state(self):
         return self.data[0] == ["7", "8", "1"] and self.data[1] == ["6", "*", "2"] and self.data[2] == ["5", "4", "3"]
+
+    def __eq__(self, other):
+        if isinstance(other, State):
+            return self.data == other.data
+        return False
+
+    def __hash__(self):
+        return hash(tuple(map(tuple, self.data)))
 
     def get_adjacent_states(self):
         """Returns adjacent states in the following order:
@@ -98,16 +116,58 @@ class State:
         self.data[r2][c2] = temp
 
 
+def print_path_to_parent(node):
+    if not isinstance(node, Node):
+        raise ValueError("Unsupported argument type")
+
+    path_stack = []
+    while node is not None:
+        path_stack.append(node.state)
+        node = node.parent
+
+    while path_stack:
+        next_state = path_stack.pop()
+        print(next_state, "\n")
+
+
+def path_has_repeated_state(node):
+    if not isinstance(node, Node):
+        raise ValueError("Unsupported argument type")
+
+    state_set = set()
+    while node is not None:
+        if node.state in state_set:
+            return True
+        state_set.add(node.state)
+        node = node.parent
+    return False
+
+
+def dfs_helper(node, max_depth=10):
+    global is_goal_found
+    if node.depth > max_depth:
+        return None
+    elif node.state.is_goal_state():
+        is_goal_found = True
+        return node
+    elif path_has_repeated_state(node):
+        return None
+
+    if not is_goal_found:
+        for child in node.get_children():
+            if not is_goal_found and dfs_helper(child):
+                print("goal found")
+                print_path_to_parent(child)
+                return
+
+
 def dfs(i_state):
     """Runs the Depth-First Search Algorithm"""
     print("Initial state:")
     print(i_state)
 
-    print("Adjacent States:")
-    adjacent_states = i_state.get_adjacent_states()
-    for state in adjacent_states:
-        print(state)
-
+    dfs_helper(Node(i_state))
+    
 
 def ids(i_state):
     """Run the Iterative Depth-First Search Algorithm"""
