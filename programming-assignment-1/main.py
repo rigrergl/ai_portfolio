@@ -3,6 +3,7 @@ import pathlib
 import copy
 
 is_goal_found = False
+nodes_enqueued = 0
 
 
 class Node:
@@ -144,7 +145,12 @@ def path_has_repeated_state(node):
 
 
 def dfs_helper(node, max_depth=10):
+    global nodes_enqueued
     global is_goal_found
+    nodes_enqueued += 1
+
+    if is_goal_found:
+        return None
     if node.depth > max_depth:
         return None
     elif node.state.is_goal_state():
@@ -153,12 +159,11 @@ def dfs_helper(node, max_depth=10):
     elif path_has_repeated_state(node):
         return None
 
-    if not is_goal_found:
-        for child in node.get_children():
-            if not is_goal_found and dfs_helper(child):
-                print("goal found")
-                print_path_to_parent(child)
-                return
+    for child in node.get_children():
+        if not is_goal_found:
+            solution = dfs_helper(child)
+            if solution:
+                return solution
 
 
 def dfs(i_state):
@@ -166,22 +171,25 @@ def dfs(i_state):
     print("Initial state:")
     print(i_state)
 
-    dfs_helper(Node(i_state))
-    
+    return dfs_helper(Node(i_state))
+
 
 def ids(i_state):
     """Run the Iterative Depth-First Search Algorithm"""
     print("TODO")
+    return False
 
 
 def astar1(i_state):
     """Runs the A* algorithm with heuristic 1"""
     print("TODO")
+    return False
 
 
 def astar2(i_state):
     """Runs the A* algorithm with heuristic 2"""
     print("TODO")
+    return False
 
 
 if __name__ == '__main__':
@@ -204,13 +212,21 @@ if __name__ == '__main__':
 
     # Compute solution using the desired algorithm
     if algorithm_name == "dfs":
-        dfs(initial_state)
+        solution_node = dfs(initial_state)
     elif algorithm_name == "ids":
-        ids(initial_state)
+        solution_node = ids(initial_state)
     elif algorithm_name == "astar1":
-        astar1(initial_state)
+        solution_node = astar1(initial_state)
     elif algorithm_name == "astar2":
-        astar2(initial_state)
+        solution_node = astar2(initial_state)
     else:
         print("Error: algorithm_name not recognized")
         quit()
+
+    if solution_node:
+        print("goal found")
+        print_path_to_parent(solution_node)
+        print("Number of move =", solution_node.depth)
+        print("Number of states enqueued =", nodes_enqueued)
+    else:
+        print("Failure: solution not found with given parameters")
