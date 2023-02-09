@@ -168,9 +168,6 @@ def dfs_helper(node, max_depth=10):
 
 def dfs(i_state):
     """Runs the Depth-First Search Algorithm"""
-    print("Initial state:")
-    print(i_state)
-
     return dfs_helper(Node(i_state))
 
 
@@ -224,7 +221,6 @@ if __name__ == '__main__':
         quit()
 
     if solution_node:
-        print("goal found")
         print_path_to_parent(solution_node)
         print("Number of move =", solution_node.depth)
         print("Number of states enqueued =", nodes_enqueued)
