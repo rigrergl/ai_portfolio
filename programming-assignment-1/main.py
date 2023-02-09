@@ -46,6 +46,9 @@ class State:
             result = result.strip() + "\n"
         return result
 
+    def is_goal_state(self):
+        return self.data[0] == ["7", "8", "1"] and self.data[1] == ["6", "*", "2"] and self.data[2] == ["5", "4", "3"]
+
     def get_adjacent_states(self):
         """Returns adjacent states in the following order:
             1. moving left item into blank
