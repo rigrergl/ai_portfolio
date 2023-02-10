@@ -151,17 +151,16 @@ def dfs_helper(node, max_depth=10):
 
     if is_goal_found:
         return None
-    if node.depth > max_depth:
+    elif node.depth > max_depth:
         return None
     elif node.state.is_goal_state():
         is_goal_found = True
         return node
     elif path_has_repeated_state(node):
         return None
-
-    for child in node.get_children():
-        if not is_goal_found:
-            solution = dfs_helper(child)
+    else:
+        for child in node.get_children():
+            solution = dfs_helper(child, max_depth)
             if solution:
                 return solution
 
@@ -173,8 +172,14 @@ def dfs(i_state):
 
 def ids(i_state):
     """Run the Iterative Depth-First Search Algorithm"""
-    print("TODO")
-    return False
+    for i in range(11):
+        solution = dfs_helper(Node(i_state), i)
+        if solution:
+            print("Solution found at depth", i)
+            return solution
+        else:
+            print("Solution not found at depth", i)
+    return None
 
 
 def astar1(i_state):
