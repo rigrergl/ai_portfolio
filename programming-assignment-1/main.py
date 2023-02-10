@@ -41,10 +41,8 @@ class State:
             raise ValueError("Unsupported Argument Type")
 
     def from_string(self, arg):
-        self.data = []
-        lines = arg.splitlines()
-        for line in lines:
-            self.data.append(line.split())
+        chars = arg.split()
+        self.data = [list(chars[i:i + 3]) for i in range(0, len(chars), 3)]
 
     def from_list(self, arg):
         self.data = arg
