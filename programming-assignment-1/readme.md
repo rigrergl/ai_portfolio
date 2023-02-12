@@ -1,7 +1,10 @@
 ## How to run
 Requirements:
-- Python3 interpreter
+- Python version 3 or higher installed on local system
+- input file
 
-Steps for run
+In order to run use the following command:
+`python <path_to_script> <algorithm_name> <input_file_path>`
 
-TODO
+Example: `python main.py astar2 sample-input-1.txt`
+
