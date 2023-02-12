@@ -186,9 +186,11 @@ def ids(i_state):
 
 
 def astar_helper(i_state, h):
+    global nodes_enqueued
     i_node = Node(i_state, heuristic=h(i_state))
     node_queue = []
     heapq.heappush(node_queue, (h(i_state), i_node))
+    nodes_enqueued += 1
 
     next_node = heapq.heappop(node_queue)[1]
     while next_node:
@@ -198,6 +200,7 @@ def astar_helper(i_state, h):
             if not path_has_repeated_state(child):
                 child.heuristic = h(child.state)
                 heapq.heappush(node_queue, (child.depth + child.heuristic, child))
+                nodes_enqueued += 1
         next_node = heapq.heappop(node_queue)[1]
 
     return None
