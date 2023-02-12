@@ -213,9 +213,7 @@ def astar1(i_state):
 
 def astar2(i_state):
     """Runs the A* algorithm with heuristic 2"""
-    print(i_state)
-    print(heuristic2(i_state))
-    return False
+    return astar_helper(i_state, heuristic2)
 
 
 def heuristic1(state):
