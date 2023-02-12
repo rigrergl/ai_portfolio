@@ -1,13 +1,14 @@
 import sys
 import pathlib
 import copy
+import heapq
 
 is_goal_found = False
 nodes_enqueued = 0
 
 
 class Node:
-    def __init__(self, state, parent=None):
+    def __init__(self, state, parent=None, heuristic=0):
         self.state = None
         self.parent = None
         self.depth = 0
@@ -16,6 +17,7 @@ class Node:
             raise ValueError("Unsupported Argument Type")
 
         self.state = state
+        self.heuristic = heuristic
 
         if parent:
             self.parent = parent
@@ -28,6 +30,9 @@ class Node:
             child = Node(state, self)
             children.append(child)
         return children
+
+    def __lt__(self, other):
+        return (self.depth + self.heuristic) < (other.depth + other.heuristic)
 
 
 class State:
@@ -180,11 +185,27 @@ def ids(i_state):
     return None
 
 
+def astar_helper(i_state, h):
+    i_node = Node(i_state, heuristic=h(i_state))
+    node_queue = []
+    heapq.heappush(node_queue, (h(i_state), i_node))
+
+    next_node = heapq.heappop(node_queue)[1]
+    while next_node:
+        if next_node.state.is_goal_state():
+            return next_node
+        for child in next_node.get_children():
+            if not path_has_repeated_state(child):
+                child.heuristic = h(child.state)
+                heapq.heappush(node_queue, (child.depth + child.heuristic, child))
+        next_node = heapq.heappop(node_queue)[1]
+
+    return None
+
+
 def astar1(i_state):
     """Runs the A* algorithm with heuristic 1"""
-    print(i_state)
-    print(heuristic1(i_state))
-    return False
+    return astar_helper(i_state, heuristic1)
 
 
 def astar2(i_state):
