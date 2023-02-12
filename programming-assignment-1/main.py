@@ -213,7 +213,8 @@ def astar1(i_state):
 
 def astar2(i_state):
     """Runs the A* algorithm with heuristic 2"""
-    print("TODO")
+    print(i_state)
+    print(heuristic2(i_state))
     return False
 
 
@@ -244,6 +245,42 @@ def heuristic1(state):
         h1 += 1
 
     return h1
+
+
+goal_positions = dict()
+goal_positions["1"] = (0, 2)
+goal_positions["2"] = (1, 2)
+goal_positions["3"] = (2, 2)
+goal_positions["4"] = (2, 1)
+goal_positions["5"] = (2, 0)
+goal_positions["6"] = (1, 0)
+goal_positions["7"] = (0, 0)
+goal_positions["8"] = (0, 1)
+
+
+def heuristic2(state):
+    """
+    Returns the sum of Manhattan distances of all tiles from their goal positions
+    Does not include the blank tile
+    """
+    global goal_positions
+
+    if not isinstance(state, State):
+        raise ValueError("Unsupported argument type")
+
+    distance_sum = 0
+    for r in range(3):
+        for c in range(3):
+            if state.data[r][c] != "*":
+                goal_r = goal_positions[state.data[r][c]][0]
+                goal_c = goal_positions[state.data[r][c]][1]
+                distance_sum += manhattan_distance(r, c, goal_r, goal_c)
+
+    return distance_sum
+
+
+def manhattan_distance(r1, c1, r2, c2):
+    return abs(r1 - r2) + abs(c1 - c2)
 
 
 if __name__ == '__main__':
