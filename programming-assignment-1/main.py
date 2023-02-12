@@ -114,31 +114,6 @@ class State:
         self.data[r1][c1] = self.data[r2][c2]
         self.data[r2][c2] = temp
 
-    def heuristic1(self):
-        """
-        Heuristic 1 counts the number of tiles in the wrong position
-        """
-        h1 = 0
-
-        if self.data[0][2] != "1":
-            h1 += 1
-        if self.data[1][2] != "2":
-            h1 += 1
-        if self.data[2][2] != "3":
-            h1 += 1
-        if self.data[2][1] != "4":
-            h1 += 1
-        if self.data[2][0] != "5":
-            h1 += 1
-        if self.data[1][0] != "6":
-            h1 += 1
-        if self.data[0][0] != "7":
-            h1 += 1
-        if self.data[0][1] != "8":
-            h1 += 1
-
-        return h1
-
 
 def print_path_to_parent(node):
     if not isinstance(node, Node):
@@ -208,7 +183,7 @@ def ids(i_state):
 def astar1(i_state):
     """Runs the A* algorithm with heuristic 1"""
     print(i_state)
-    print(i_state.heuristic1())
+    print(heuristic1(i_state))
     return False
 
 
@@ -216,6 +191,35 @@ def astar2(i_state):
     """Runs the A* algorithm with heuristic 2"""
     print("TODO")
     return False
+
+
+def heuristic1(state):
+    """
+    Heuristic 1 counts the number of tiles in the wrong position
+    """
+    if not isinstance(state, State):
+        raise ValueError("Unsupported argument type")
+
+    h1 = 0
+
+    if state.data[0][2] != "1":
+        h1 += 1
+    if state.data[1][2] != "2":
+        h1 += 1
+    if state.data[2][2] != "3":
+        h1 += 1
+    if state.data[2][1] != "4":
+        h1 += 1
+    if state.data[2][0] != "5":
+        h1 += 1
+    if state.data[1][0] != "6":
+        h1 += 1
+    if state.data[0][0] != "7":
+        h1 += 1
+    if state.data[0][1] != "8":
+        h1 += 1
+
+    return h1
 
 
 if __name__ == '__main__':
