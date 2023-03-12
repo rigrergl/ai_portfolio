@@ -5,4 +5,4 @@ In the SWI-Prolog command line, run the following commands:
 
 # Requirements to run 
 - A Prolog Interpreter, such as [swi-prolog](https://www.swi-prolog.org/Download.html)
-- My source code, which can be found [here](TODO)
+- My source code, which can be found [here](https://github.com/rigrergl/ai_portfolio/blob/main/programming-assignment-2/coloring.pl)
