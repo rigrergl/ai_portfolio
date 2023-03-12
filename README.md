@@ -24,4 +24,4 @@ Instructions on how to run my Prolog code can be found [here](https://github.com
 
 A report, containing sample runs and a short analysis can be found [here](https://github.com/rigrergl/ai_portfolio/blob/main/programming-assignment-2/Report.pdf).
 
-The original instructions provided by the professor can be found [here]().
+The original instructions provided by the professor can be found [here](https://github.com/rigrergl/ai_portfolio/blob/main/programming-assignment-2/Programming-Assignment-2-Instructions.pdf).
